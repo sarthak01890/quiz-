@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:quiz/data/questions.dart';
 import 'package:quiz/questions_summary.dart';
-import 'package:quiz/firestore_services.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({
@@ -40,7 +39,7 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final summaryData = getSummaryData();
-    final totalScore = getScore(); // calculate score here
+    final totalScore = getScore();
 
     return SizedBox(
       width: double.infinity,
@@ -49,21 +48,15 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Your Quiz Summary",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+            Text(
+              "You scored $totalScore out of ${questions.length}",
+              style: const TextStyle(fontSize: 20, color: Colors.white),
             ),
             const SizedBox(height: 20),
             QuestionsSummary(summaryData: summaryData),
             const SizedBox(height: 30),
             TextButton.icon(
-              onPressed: () async {
-                await saveQuizResult(
-                  userAnswers: choosenAnswers,
-                  score: totalScore,
-                );
-                onRestart();
-              },
+              onPressed: onRestart,
               icon: const Icon(Icons.refresh, color: Colors.white),
               label: const Text(
                 'Restart Quiz',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quiz/data/questions.dart';
 import 'package:quiz/start_screen.dart';
 import 'package:quiz/question_screen.dart';
@@ -19,7 +18,7 @@ class _QuizState extends State<Quiz> {
   var activeScreen = 'start-screen';
 
   void restartQuiz() {
-    _saveResultsToFirestore(); // ✅ Save data before restart
+     // ✅ Save data before restart
     setState(() {
       selectedAnswer = [];
       activeScreen = 'start-screen';
@@ -41,16 +40,7 @@ class _QuizState extends State<Quiz> {
     }
   }
 
-  void _saveResultsToFirestore() async {
-    try {
-      await FirebaseFirestore.instance.collection('quizResults').add({
-        'timestamp': Timestamp.now(),
-        'answers': selectedAnswer,
-      });
-    } catch (e) {
-      print('Failed to save results: $e');
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
